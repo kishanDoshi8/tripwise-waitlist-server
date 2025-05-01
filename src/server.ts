@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import app from './app';
 import config from './config/config';
 
-const connectionString = process.env.MONGODB_URI;
+const connectionString = config.mongoDb;
 if (connectionString) {
     mongoose.connect(connectionString)
         .then(() => console.log('Database connected...'))
@@ -10,6 +10,9 @@ if (connectionString) {
 } else {
     console.error('Missing database connection string');
 }
+
+// start job-queue
+config.startWorker();
 
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
