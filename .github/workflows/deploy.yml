@@ -35,6 +35,9 @@ jobs:
             [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
             npm install
+            cat <<EOF > .env
+            ${{ secrets.BACKEND_ENV }}
+            EOF
             echo "${{ secrets.BACKEND_ENV }}" > .env
             npm run build
             pm2 reload ecosystem.config.js --update-env
