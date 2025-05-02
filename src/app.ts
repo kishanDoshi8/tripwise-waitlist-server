@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler';
 import surveyRoutes from './routes/surveyRoutes';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 

@@ -23,16 +23,10 @@ const worker = new Worker(
 )
 
 interface Config {
-    port: number;
-    nodeEnv: string;
-    mongoDb: string;
     startWorker: () => void;
 }
 
 const config: Config = {
-    port: Number(process.env.PORT) || 3000,
-    nodeEnv: process.env.NODE_ENV ?? 'development',
-    mongoDb: process.env.MONGODB_URI ?? '',
     startWorker: () => {
         console.log('worker started');
         worker.start();
