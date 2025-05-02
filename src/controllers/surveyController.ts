@@ -17,7 +17,7 @@ export const createSurvey = async (req: Request, res: Response, next: NextFuncti
         Queue.addJob({
             data: {
                 email,
-                subject: `You're officially on the Tripwise waitlist! 🎒✈️`,
+                subject: `You're officially on the TripWise waitlist! 🎒✈️`,
                 body: getWelcomeEmail(name),
             },
             name: `Added to queue. Welcome email to: ${email}`,

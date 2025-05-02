@@ -19,7 +19,7 @@ const createSurvey = async (req, res, next) => {
         config_1.Queue.addJob({
             data: {
                 email,
-                subject: `You're officially on the Tripwise waitlist! 🎒✈️`,
+                subject: `You're officially on the TripWise waitlist! 🎒✈️`,
                 body: (0, email_templates_1.getWelcomeEmail)(name),
             },
             name: `Added to queue. Welcome email to: ${email}`,
