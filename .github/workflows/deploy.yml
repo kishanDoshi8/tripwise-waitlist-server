@@ -38,7 +38,6 @@ jobs:
             cat <<EOF > .env
             ${{ secrets.BACKEND_ENV }}
             EOF
-            cat .env
             npm run build
             pm2 reload ecosystem.config.js --update-env
 
