@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const errorHandler_1 = require("./middlewares/errorHandler");
 const surveyRoutes_1 = __importDefault(require("./routes/surveyRoutes"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const app = (0, express_1.default)();
 let corsOrigin;
 if (process.env.NODE_ENV === 'development') {

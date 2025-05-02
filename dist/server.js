@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
 const config_1 = __importDefault(require("./config/config"));
-const connectionString = config_1.default.mongoDb;
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const connectionString = process.env.MONGODB_URI;
 if (connectionString) {
     mongoose_1.default.connect(connectionString)
         .then(() => console.log('Database connected...'))
@@ -17,6 +19,7 @@ else {
 }
 // start job-queue
 config_1.default.startWorker();
-app_1.default.listen(config_1.default.port, () => {
-    console.log(`Server running on port ${config_1.default.port}`);
+const PORT = process.env.PORT ?? 3000;
+app_1.default.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

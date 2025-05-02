@@ -1,4 +1,5 @@
 import { Job, JobOptions } from "../../types/job";
+import { v4 as uuidv4 } from 'uuid';
 
 export type QueueOptions = {
     retryAttempts: number;
@@ -27,7 +28,7 @@ export abstract class Queue<T> {
             id?: string;
         }
     ) {
-        const id = job.id ?? crypto.randomUUID()
+        const id = job.id ?? uuidv4();
         if (
             (job.options?.retry?.totalAttempts ?? 0) >=
             (job.options?.retry?.maxAttempts ?? 1)
