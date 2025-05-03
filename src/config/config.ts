@@ -2,8 +2,11 @@ import dotenv from 'dotenv';
 import { RedisQueue } from '../libs/job-queue/redis-adapter';
 import { Worker } from '../libs/job-queue/worker';
 import { sendEmail } from '../libs/email';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({
+    path: path.resolve(__dirname, '../.env'),
+});
 
 export const Queue = new RedisQueue<{ email: string, subject: string, body: string }>(
     'redis://localhost:6379',
@@ -20,16 +23,10 @@ const worker = new Worker(
 )
 
 interface Config {
-    port: number;
-    nodeEnv: string;
-    mongoDb: string;
     startWorker: () => void;
 }
 
 const config: Config = {
-    port: Number(process.env.PORT) || 3000,
-    nodeEnv: process.env.NODE_ENV ?? 'development',
-    mongoDb: process.env.MONGODB_URI ?? '',
     startWorker: () => {
         console.log('worker started');
         worker.start();

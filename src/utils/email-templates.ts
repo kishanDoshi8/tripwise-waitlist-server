@@ -7,7 +7,7 @@ export const getWelcomeEmail = (name?: string) => {
             <head>
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <title>Welcome to Tripwise</title>
+                <title>Welcome to TripWise</title>
                 <style>
                     body {
                         font-family: Roboto, Arial, sans-serif;
@@ -41,7 +41,7 @@ export const getWelcomeEmail = (name?: string) => {
             ">
                 <div class="email-container">
                     <h2>Hey ${user}! <span class="emoji">👋</span></h2>
-                    <p>Welcome to the Tripwise crew — you’re officially on the list! <span class="emoji">🎉</span></p>
+                    <p>Welcome to the TripWise crew — you’re officially on the list! <span class="emoji">🎉</span></p>
                     <p>We’re building the easiest, chillest way to plan group trips without the group chaos.</p>
                     <br />
                     <p>You’ll be the first to know when we launch <span class="emoji">🚀</span> (plus, maybe a few surprises <span class="emoji">👀</span>).</p>
@@ -49,10 +49,10 @@ export const getWelcomeEmail = (name?: string) => {
                     <p>Until then, start dreaming about your next adventure — we’ll handle the planning. <span class="emoji">😉</span></p>
                     <br />
                     <p>Talk soon,</p>
-                    <p style=" color: #047857 "><strong>The Tripwise Team <span class="emoji">🌎</span></strong></p>
+                    <p style=" color: #047857 "><strong>The TripWise Team <span class="emoji">🌎</span></strong></p>
                 </div>
             </body>
         </html>
     `;
 }
-// You received this email because you joined the Tripwise waitlist.
+// You received this email because you joined the TripWise waitlist.

@@ -1,0 +1,38 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum QuestionName {
+    trip_types
+    planning_pain_points
+    current_organization_method
+    desired_solution
+    willingness_to_pay
+}
+
+model Waitlist {
+    id              String           @id @default(uuid())
+    userId          Int              @default(autoincrement())
+    name            String?
+    email           String
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+    surveyResponses SurveyResposne[]
+}
+
+model SurveyResposne {
+    id            String       @id @default(uuid())
+    question      String
+    questionId    QuestionName
+    answerText    String?
+    answerOptions String[]
+    surveyVersion String       @default("v1")
+    Waitlist      Waitlist     @relation(fields: [waitlistId], references: [id])
+    waitlistId    String
+}

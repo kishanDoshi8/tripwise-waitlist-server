@@ -2,10 +2,24 @@ import express from 'express';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler';
 import surveyRoutes from './routes/surveyRoutes';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
-app.use(cors());
+let corsOrigin;
+if (process.env.NODE_ENV === 'development') {
+    corsOrigin = 'http://localhost:5173';
+} else {
+    corsOrigin = 'https://tripwise.group'; // production
+}
+
+app.use(
+    cors({
+        origin: corsOrigin,
+    })
+);
 app.use(express.json());
 
 // Routes
