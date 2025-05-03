@@ -1,21 +1,26 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateSurvey = exports.createSurvey = void 0;
-const survey_1 = __importDefault(require("../models/survey"));
-const survey_2 = require("../types/survey");
 const config_1 = require("../config/config");
 const email_templates_1 = require("../utils/email-templates");
+const client_1 = require("../db/client");
+const SurveyResponse_1 = require("../types/SurveyResponse");
+const Waitlist_1 = require("../types/Waitlist");
 const createSurvey = async (req, res, next) => {
     try {
-        const validatedData = survey_2.CreateSurveySchema.parse(req.body);
+        const validatedData = Waitlist_1.CreateWaitlist.parse(req.body);
         const { email, name } = validatedData;
-        const survey = new survey_1.default({ email, name });
-        const savedSurvey = await survey.save();
-        if (!savedSurvey)
-            throw new Error('Unexpected error trying to add user to the waitlist');
+        let userName = name;
+        if (name === '')
+            userName = undefined;
+        const waitlist = await client_1.prisma.waitlist.create({
+            data: {
+                name: userName,
+                email,
+            }
+        });
+        if (!waitlist)
+            throw new Error('Unexpected error trying to add you to the waitlist');
         config_1.Queue.addJob({
             data: {
                 email,
@@ -24,7 +29,7 @@ const createSurvey = async (req, res, next) => {
             },
             name: `Added to queue. Welcome email to: ${email}`,
         });
-        res.status(201).json(savedSurvey);
+        res.status(201).json(waitlist);
     }
     catch (error) {
         next(error);
@@ -36,8 +41,22 @@ const updateSurvey = async (req, res, next) => {
         const { id } = req.params;
         if (!id)
             throw Error('Missing Id.');
-        const validatedData = survey_2.UpdateSurveySchema.parse(req.body);
-        const updatedSurvey = await survey_1.default.findByIdAndUpdate(id, validatedData, { new: true, runValidators: true });
+        const validatedData = SurveyResponse_1.UpdateSurveySchema.parse(req.body);
+        const updatedSurvey = await client_1.prisma.waitlist.update({
+            where: {
+                id,
+            },
+            data: {
+                surveyResponses: {
+                    createMany: {
+                        data: validatedData.surveyResponses,
+                    }
+                }
+            },
+            include: {
+                surveyResponses: true,
+            }
+        });
         if (!updatedSurvey) {
             res.status(404).json({ message: 'Survey response not found' });
             return;

@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Deploy backend & restart services
+      - name: Deploy backend & run migrations
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -35,9 +35,14 @@ jobs:
             [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
             npm install
+            
             cat <<EOF > .env
             ${{ secrets.BACKEND_ENV }}
             EOF
+
+            npx prisma generate
+            npx prisma migrate deploy
+
             npm run build
             pm2 reload ecosystem.config.js --update-env
 
