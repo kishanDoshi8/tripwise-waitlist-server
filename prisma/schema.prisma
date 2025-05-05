@@ -20,7 +20,7 @@ model Waitlist {
     id              String           @id @default(uuid())
     userId          Int              @default(autoincrement())
     name            String?
-    email           String
+    email           String           @unique
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
     surveyResponses SurveyResposne[]
@@ -32,7 +32,7 @@ model SurveyResposne {
     questionId    QuestionName
     answerText    String?
     answerOptions String[]
-    surveyVersion String       @default("v1")
+    surveyVersion Int          @default(1)
     Waitlist      Waitlist     @relation(fields: [waitlistId], references: [id])
     waitlistId    String
 }
